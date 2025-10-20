@@ -8,7 +8,7 @@ def get_cats_info(path_to_file:str)->[]:
                 res = line.split(",")
                 if len(res)!=3:
                     continue
-                ret.append({"id":res[0],"name":res[1],"age":res[2]})
+                ret.append({"id":res[0],"name":res[1],"age":res[2].replace("\n","")})
     except FileNotFoundError:
         pass
     finally:    

@@ -58,7 +58,8 @@ def change_contact(args:[], contacts:{})->str:
     contacts[name] = phone
     return "Contact changed."
 
-def get_phone_by_name(name:str, contacts:{})->str:
+def get_phone_by_name(args:[], contacts:{})->str:
+    name = args[0] if len(args)>0 else None
     if name is None:
         return "Invalid name!"
     
@@ -105,7 +106,7 @@ def main():
         elif command == "change":
             print(safe_change_contact(args,contacts))
         elif command == "phone":
-            print(get_phone_by_name(args[0] if len(args)>0 else None,contacts))
+            print(get_phone_by_name(args,contacts))
         elif command == "all":
             print(contacts)
         elif command == "clear":

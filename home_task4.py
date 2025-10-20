@@ -29,13 +29,14 @@ def validate_phone_number(phone_number:str)->str:
 def add_contact(args:[], contacts:{})->str:
     if len(args) < 2:
         return "Inavlid data arguments!"
+    
     name = args[0]
     args.remove(name) 
     phone = "".join(args) #for support phone format with spaces +38 (097) xxx xx xx
 
     phone = validate_phone_number(phone)
     if len(phone) == 0:
-        return "Inavlid phone number!"
+        return "Inavlid phone number! Enter the phone number in the format: +xx (xxx) xxx xx xx"
     
     name = name.capitalize()
     contacts[name] = phone
@@ -51,7 +52,7 @@ def change_contact(args:[], contacts:{})->str:
 
     phone = validate_phone_number(phone)
     if len(phone) == 0:
-        return "Inavlid phone number!"
+        return "Inavlid phone number! Enter the phone number in the format: +xx (xxx) xxx xx xx"
     
     name = name.capitalize()
     contacts[name] = phone
@@ -67,6 +68,26 @@ def get_phone_by_name(name:str, contacts:{})->str:
     
     return contacts.get(name)
 
+def safe_add_contact(args:[], contacts:{})->str:
+    if len(args)>0 and contacts.get(args[0].capitalize()) is not None:
+        print("This contact already exists. Do you want to update it (enter 'y' to confirm)?")
+        if parse_input(input())[0] == "y":
+            return change_contact(args,contacts)
+        else:
+            return"Command ignored."
+        
+    return add_contact(args, contacts)
+
+def safe_change_contact(args:[], contacts:{})->str:
+    if len(args)>0 and contacts.get(args[0].capitalize()) is None:
+        print("This contact is missing. Would you like to add new acc (enter 'y' to confirm)?")
+        if parse_input(input())[0] == "y":
+            return add_contact(args,contacts)
+        else:
+            return "Command ignored."  
+        
+    return change_contact(args, contacts)
+
 def main():
     contacts = {}
     print("Welcome to the assistant bot!")
@@ -80,23 +101,9 @@ def main():
         elif command == "hello":
             print("How can I help you?")
         elif command == "add":
-            if len(args)>0 and contacts.get(args[0].capitalize()) is not None:
-                print("This contact already exists. Do you want to update it (enter 'y' to confirm)?")
-                if parse_input(input())[0] == "y":
-                    print(change_contact(args,contacts))
-                else:
-                    print("Command ignored.")
-            else: 
-                print(add_contact(args, contacts))
+            print(safe_add_contact(args,contacts))
         elif command == "change":
-            if len(args)>0 and contacts.get(args[0].capitalize()) is None:
-                print("This contact is missing. Would you like to add new acc (enter 'y' to confirm)?")
-                if parse_input(input())[0] == "y":
-                    print(add_contact(args,contacts))
-                else:
-                    print("Command ignored.")
-            else:
-                print(change_contact(args, contacts))
+            print(safe_change_contact(args,contacts))
         elif command == "phone":
             print(get_phone_by_name(args[0] if len(args)>0 else None,contacts))
         elif command == "all":

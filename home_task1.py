@@ -11,7 +11,7 @@ def total_salay(path_to_file:str)->():
                 if len(res)!=2:
                     continue
                 try:
-                    all_salary += int(res[1])
+                    all_salary += float(res[1])
                     counter += 1
                 except ValueError:
                     continue

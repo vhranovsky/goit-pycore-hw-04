@@ -89,6 +89,9 @@ def safe_change_contact(args:[], contacts:{})->str:
         
     return change_contact(args, contacts)
 
+def get_all_contacts(args:[], contacts:{})->str:
+    return f"{contacts}"
+
 def main():
     contacts = {}
     print("Welcome to the assistant bot!")
@@ -108,7 +111,7 @@ def main():
         elif command == "phone":
             print(get_phone_by_name(args,contacts))
         elif command == "all":
-            print(contacts)
+            print(get_all_contacts(args,contacts))
         elif command == "clear":
             clear_console()
         else:

@@ -13,18 +13,18 @@ def parse_input(user_input):
     return cmd, *args
 
 def validate_phone_number(phone_number:str)->str:
-    rеt_phone_number = re.sub(r'[^0-9+]', '', phone_number)
+    ret_phone_number = re.sub(r'[^0-9+]', '', phone_number)
 
-    if len(rеt_phone_number) < 12 or len(rеt_phone_number)>13:
+    if len(ret_phone_number) < 12 or len(ret_phone_number)>13:
         return ""
 
-    if len(rеt_phone_number) == 12:
-        if rеt_phone_number[0] == "+":
+    if len(ret_phone_number) == 12:
+        if ret_phone_number[0] == "+":
             return ""
         else:
-            rеt_phone_number = "+"+rеt_phone_number
+            ret_phone_number = "+"+ret_phone_number
 
-    return rеt_phone_number
+    return ret_phone_number
 
 def add_contact(args:[], contacts:{})->str:
     if len(args) < 2:
